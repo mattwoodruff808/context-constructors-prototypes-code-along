@@ -10,7 +10,9 @@
 let user = {
 	username: "bencallis",
 	email: "bencallis1@gmail.com",
-    // Code here
+  getUserName: function(){
+    return this.username;
+  }
 };
 
 
@@ -31,7 +33,7 @@ let user1 = {
 };
 
 const getUsername = function () {
-    // Code here
+  return this.username;
 };
 
 const username = getUsername.call(user1);
@@ -57,7 +59,7 @@ function getOtherUsername() {
 };
 
 // Code here
-
+let otherUsername = getOtherUsername.call(user2);
 
 
 ////////// PROBLEM 4 //////////
@@ -72,7 +74,8 @@ function getOtherUsername() {
 */
 
 // Code here
-
+let username1 = getOtherUsername.call(user1);
+let username2 = getOtherUsername.call(user2);
 
 
 ////////// PROBLEM 5 //////////
@@ -94,7 +97,7 @@ function add(a, b, c) {
 }
 
 // Code here
-
+let result = add.apply(obj, [1, 2, 3]);
 
 
 ////////// PROBLEM 6 //////////
@@ -116,7 +119,7 @@ const getName = function () {
 };
 
 // Code here
-
+let name = getName.bind(favRapper);
 
 
 ////////// PROBLEM 7 //////////
@@ -129,8 +132,13 @@ const getName = function () {
 */
 
 function Car (color, make, year){
-    // Code here
-}
+  const obj = {
+    color: color,
+    make: make,
+    year: year
+  }
+  return obj;
+};
 
 
 
@@ -149,7 +157,9 @@ function CarMaker (make, model, year) {
 	this.year = year;
     this.move = 0;
     
-    // Code here
+  this.moveCar = function(){
+    this.move += 10;
+  }
 };
 
 
@@ -166,7 +176,17 @@ function CarMaker (make, model, year) {
 */
 
 // Code here
+function Player(name, age, team, pointsScored){
+  this.name = name;
+  this.age = age;
+  this.team = team;
+  this.pointsScored = pointsScored;
 
+  this.addPoints = function(num){
+    this.pointsScored += num;
+    return this.pointsScored;
+  }
+};
 
 
 ////////// PROBLEM 10 //////////
@@ -183,14 +203,17 @@ function Restaurant(name, type, stars) {
 	this.type = type;
     this.stars = stars;
     
-    this.addStars = function (num) {
-        this.stars += num;
-        return this.stars;
-    };
+    // this.addStars = function (num) {
+    //     this.stars += num;
+    //     return this.stars;
+    // };
 }
 
 // Code here
-
+Restaurant.prototype.addStars = function(num){
+  this.stars += num;
+  return this.addStars;
+};
 
 
 ////////// PROBLEM 11 //////////
@@ -215,7 +238,17 @@ function Person(name, age, hometown, email, friends) {
 }
 
 // Code here
+Person.prototype.addFriend = function(newFriend){
+  this.friends.push(newFriend);
+};
 
+Person.prototype.removeFriend = function(badFriend){
+  for (let i = 0; i < this.friends.length; i++){
+    if (this.friends[i] === badFriend){
+      this.friends.splice([i], 1);
+    }
+  }
+};
 
 
 ////////// PROBLEM 12 //////////
@@ -235,20 +268,49 @@ function Person(name, age, hometown, email, friends) {
 */
 
 // Code here
+function User(name, age, email, savedPosts){
+  this.name = name;
+  this.email = age;
+  this.email = email;
+  this.savedPosts = savedPosts;
+};
 
+// User.prototype.addSavedPost = function(id, title, rating){
+//   this.savedPosts.push({
+//     id: id,
+//     title: title,
+//     rating: rating
+//   })
+// };
+
+User.prototype.addSavedPost = function(id, title, rating){
+  let obj = {
+    id: id,
+    title: title,
+    rating: rating
+  }
+
+  this.savedPosts.push(obj);
+};
 
 
 ////////// PROBLEM 13 //////////
 
 /*
-  Using the User constructor function built as part of Problem 11, write a prototype method named removeSavedPost
+  Using the User constructor function built as part of Problem 12, write a prototype method named removeSavedPost
   This function will take in a number parameter representing the post id
   Use this id to find and remove the matching object from the savedPosts array
 
 */
 
 // Code here
-
+User.prototype.removeSavedPost = function(num){
+  for (let i = 0; i < this.savedPosts.length; i++){
+    if (this.savedPosts[i].id === num){
+      this.savedPosts.splice([i], 1);
+    }
+  }
+};
 
 
 ////////// PROBLEM 14 //////////
@@ -261,3 +323,10 @@ function Person(name, age, hometown, email, friends) {
 */
 
 // Code here
+User.prototype.changePostRating = function(num1, num2){
+  for (let i = 0; i < this.savedPosts.length; i++){
+    if (this.savedPosts[i].id === num1){
+      this.savedPosts[i].rating = num2;
+    }
+  }
+};
